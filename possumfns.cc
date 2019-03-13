@@ -1426,9 +1426,9 @@ void voxel1(const double x,const double y,double z,
 		double gg2 = g2 - grf2;     // I think you can assume that double letters are derivatives?
 		double gg3 = g3 - grf3;
 
-		g1motionRV(step-2)=gg1;
-		g2motionRV(step-2)=gg2;        
-		g3motionRV(step-2)=gg3;  
+		g1motionRV(step-1)=gg1;
+		g2motionRV(step-1)=gg2;        
+		g3motionRV(step-1)=gg3;  
 
 		double tt = tnew - trf;//time since the last rf pulse
 		cout.precision(20);
@@ -1647,6 +1647,10 @@ void voxel1(const double x,const double y,double z,
 		}	//end of if read
 	}	//end of main loop
 		string kcname=outputname+"_kcoord";
+
+	 if (v==1){
+			write_binary_matrix(coord,outputname+"_kcoord_mot" );
+	 }
 	if (v==1)
 	{
 
@@ -1656,6 +1660,7 @@ void voxel1(const double x,const double y,double z,
 			write_ascii_matrix(g1motionRV,outputname+"_Grad1_Mot_ascii" );
 			write_ascii_matrix(g2motionRV,outputname+"_Grad2_Mot_ascii" );
 			write_ascii_matrix(g3motionRV,outputname+"_Grad3_Mot_ascii" );
+			write_ascii_matrix(g4motionRV,outputname+"_Grad4_Mot_ascii" );
 			cout<<"Done"<<endl;
 		
 	}
@@ -2102,6 +2107,7 @@ void voxel2(const double x,const double y,const double z,
 			write_ascii_matrix(g1motionRV,outputname+"_Grad1_Mot_ascii" );
 			write_ascii_matrix(g2motionRV,outputname+"_Grad2_Mot_ascii" );
 			write_ascii_matrix(g3motionRV,outputname+"_Grad3_Mot_ascii" );
+			write_ascii_matrix(g4motionRV,outputname+"_Grad4_Mot_ascii" );
 			cout<<"Done"<<endl;
 	
 		}
@@ -2451,9 +2457,9 @@ void voxel3(const double x,const double y,const double z,
 		double gg3=g3-grf3;
 		double gg4=g4-grf4;
 
-		g1motionRV(step-2)=gg1;
-		g2motionRV(step-2)=gg2;        
-		g3motionRV(step-2)=gg3; 
+		g1motionRV(step-1)=gg1;
+		g2motionRV(step-1)=gg2;        
+		g3motionRV(step-1)=gg3; 
 
 
 
@@ -2755,9 +2761,10 @@ void voxel3(const double x,const double y,const double z,
 		pstatev[11]=g(4,2);
 		pstatev[12]=g(4,3);
 	}
- if (v==1 && save_kcoord==1){
-		write_binary_matrix(coord,outputname+"_kcoord" );
+ if (v==1){
+		write_binary_matrix(coord,outputname+"_kcoord_mot" );
  }
+
 		cout<<"############# Attempting to write Motion Contaminated Kcoord ######################"<<endl;
 		cout<<outputname+"_Kcoord_Mot_ascii"<<endl; 
 		if (v==1)
@@ -2769,6 +2776,7 @@ void voxel3(const double x,const double y,const double z,
 			write_ascii_matrix(g1motionRV,outputname+"_Grad1_Mot_ascii" );
 			write_ascii_matrix(g2motionRV,outputname+"_Grad2_Mot_ascii" );
 			write_ascii_matrix(g3motionRV,outputname+"_Grad3_Mot_ascii" );
+			write_ascii_matrix(g4motionRV,outputname+"_Grad4_Mot_ascii" );
 			cout<<"Done"<<endl;
 		
 		}

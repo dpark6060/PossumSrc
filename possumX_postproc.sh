@@ -96,7 +96,7 @@ echo Summing all signal from different proccesses into one total signal
 run "${POSSUMDIR}/bin/possum_sum -i ${subjdir}/diff_proc/signal_proc_ -o ${subjdir}/signal -n $nproc " ${subjdir}
 
 echo Converting the signal into the image
-run "${POSSUMDIR}/bin/signal2image -i ${subjdir}/signal -o ${subjdir}/image -p ${subjdir}/pulse --homo --kout=${subjdir}/s2i_Kvals -c ${subjdir}/Kcoord_mot_bin " ${subjdir}
+
 run "${POSSUMDIR}/bin/signal2image -i ${subjdir}/signal -o ${subjdir}/image -p ${subjdir}/pulse --homo -a " ${subjdir}
 
 echo Copying KspaceTrack1
@@ -111,6 +111,8 @@ run "cp ${subjdir}/diff_proc/signal_proc_0_Grad2_Mot_ascii ${subjdir}/Grad2_Mot_
 run "cp ${subjdir}/diff_proc/signal_proc_0_Grad3_Mot_ascii ${subjdir}/Grad3_Mot_ascii" ${subjdir}
 run "cp ${subjdir}/diff_proc/signal_proc_0_Grad4_Mot_ascii ${subjdir}/Grad4_Mot_ascii" ${subjdir}
 
+echo Attempting s2ki
+run "${POSSUMDIR}/bin/signal2image -i ${subjdir}/signal -o ${subjdir}/image -p ${subjdir}/pulse --homo --kout=${subjdir}/s2i_Kvals -c ${subjdir}/Kcoord_mot_bin " ${subjdir}
 
 
 echo Removing intermediate files
