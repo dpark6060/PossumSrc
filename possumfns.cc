@@ -1308,7 +1308,7 @@ void voxel1(const double x,const double y,double z,
 
 	
 
-	
+cout<<"Voxel1"<<endl;
 ///////////////////////////////////////////////////////////////////////////
 //INITIALIZATION OF THE MAGNETIZATION VECTOR 
 ///////////////////////////////////////////////////////////////////////////
@@ -1689,7 +1689,7 @@ void voxel2(const double x,const double y,const double z,
 		//////////////////////////////////////////////////////////////////////////
 		//INITIALIZATION OF THE MAGNETIZATION VECTOR
 		//////////////////////////////////////////////////////////////////////////
-		cout<<"InVoxel2"<<endl;
+		cout<<"Voxel2"<<endl;
 		ColumnVector m(3);//magnetization vector: M
 		m(1)=0;
 		m(2)=0;
@@ -1872,8 +1872,10 @@ void voxel2(const double x,const double y,const double z,
 				g2motion[step-2]=g2;
 				g3motion[step-2]=g3;
 				g4motion[step-2]=g4;
-			 
-						
+				g1motionRV(step-1)=g1-grf1;
+				g2motionRV(step-1)=g2-grf2;        
+				g3motionRV(step-1)=g3-grf3;  			 
+				g4motionRV(step-1)=g4-grf4; 
 
 				
 				
@@ -1889,9 +1891,7 @@ void voxel2(const double x,const double y,const double z,
 			double gg3=g3-grf3;
 			double gg4=g4-grf4;
 			
-			g1motionRV(step-2)=gg1;
-			g2motionRV(step-2)=gg2;        
-			g3motionRV(step-2)=gg3;  
+
 			if(opt_test==1 && readstep%4096==2081 && v==1){
 				cout<<"g4="<<g4<<"; grf4="<<grf4<<"; gg4="<<gg4<<endl;
 			}
@@ -2155,7 +2155,7 @@ void voxel3(const double x,const double y,const double z,
 	//////////////////////////////////////////////////////////////////////////
 	//READING IN THE SAVED STATE
 	/////////////////////////////////////////////////////////////////////////
-	cout<<"InVoxel3"<<endl;
+
 	int npst=16;
 	static vector< vector<double> > pstate(nonzero, vector<double>(npst,0.0));
 	if (segA==1){
@@ -2220,6 +2220,7 @@ void voxel3(const double x,const double y,const double z,
 	double trnew3=0.0;
 	//slice-profile weight def for the sections
 	if (v==1) {
+			cout<<"InVoxel3"<<endl;
 		 g<<pstatev[1]<<pstatev[2]<<pstatev[3]
 		 <<pstatev[4]<<pstatev[5]<<pstatev[6]
 		 <<pstatev[7]<<pstatev[8]<<pstatev[9]
@@ -2412,12 +2413,12 @@ void voxel3(const double x,const double y,const double z,
 			//b0 ends
 			g1=I(1,rnew,rmnew,g);
 			if(opt_test==1 && readstep%4096==2080 && v==1){
-	cout<<"Inew(1,rnew,rmnew,g)= "<<Inew(1,rnew,rmnew,g)<<endl;
+				cout<<"Inew(1,rnew,rmnew,g)= "<<Inew(1,rnew,rmnew,g)<<endl;
 				cout<<"rnew= "<<rnew<<endl;
 				cout<<"rmnew= "<<rmnew<<endl;
 				cout<<"g matrix "<<g<<endl;
 				cout<<"g INTEGRALS:"<<endl;
-	cout<<"i1(gxold,gxnew,told, tnew)="<<i1new(gxold,gxnew,told, tnew)<<endl;
+				cout<<"i1(gxold,gxnew,told, tnew)="<<i1new(gxold,gxnew,told, tnew)<<endl;
 				cout<<"i2(gxold,gxnew,aold,anew,told,tnew)="<<i2new(gxold,gxnew,aold,
 									anew,told,tnew)<<endl;
 				cout<<"i3(gxold,gxnew,aold,anew,told,tnew)="<<i3new(gxold,gxnew,aold,
@@ -2433,6 +2434,10 @@ void voxel3(const double x,const double y,const double z,
 			g3motion[step-2]=g3;
 			g4motion[step-2]=g4;
 
+			g1motionRV(step-1)=g1-grf1;
+			g2motionRV(step-1)=g2-grf2;    
+			g3motionRV(step-1)=g3-grf3;
+			g4motionRV(step-1)=g4-grf4;
 
 
 		}
@@ -2457,9 +2462,7 @@ void voxel3(const double x,const double y,const double z,
 		double gg3=g3-grf3;
 		double gg4=g4-grf4;
 
-		g1motionRV(step-1)=gg1;
-		g2motionRV(step-1)=gg2;        
-		g3motionRV(step-1)=gg3; 
+
 
 
 
@@ -2471,10 +2474,10 @@ void voxel3(const double x,const double y,const double z,
 		}
 		tt=tnew-trf;
 		if (told>=timecourse[actstep] && actstep<=(Nact-2)){
-	coeff(activation[actstep],activation[actstep+1],timecourse[actstep],
+				coeff(activation[actstep],activation[actstep+1],timecourse[actstep],
 				timecourse[actstep+1],dT2_1,dT2_2);
-	dT2_1=dT2_1*iT2*iT2;
-	dT2_2=dT2_2*iT2*iT2;
+				dT2_1=dT2_1*iT2*iT2;
+				dT2_2=dT2_2*iT2*iT2;
 				actstep=actstep+1;
 		}
 		actint+=(dT2_1+dT2_2*(tnew+told)/2)*(tnew-told);
@@ -2505,11 +2508,11 @@ void voxel3(const double x,const double y,const double z,
 			rfstep=rfstep+1;
 			if (v==1){
 				RowVector gradnew(3);
-	gradnew<<H(step,6)<<H(step,7)<<H(step,8);
+				gradnew<<H(step,6)<<H(step,7)<<H(step,8);
 				RowVector rr=gammabar*gradnew*(rotmat(rnew)*rotmat(rmnew));
-	rr1=rr(1);rr2=rr(2);rr3=rr(3);
+				rr1=rr(1);rr2=rr(2);rr3=rr(3);
 				trr=gammabar*(gradnew(1)*trnew1+gradnew(2)*trnew2+gradnew(3)*trnew3);
-	assert( (rfstep - 1) < nrf );
+				assert( (rfstep - 1) < nrf );
 				rotmotion1[rfstep-1]=rr1;
 				rotmotion2[rfstep-1]=rr2;
 				rotmotion3[rfstep-1]=rr3;
@@ -2549,183 +2552,196 @@ void voxel3(const double x,const double y,const double z,
 				b0tmp33freq=b0tmp333freq[rfstep-1];
 			}
 			fb0=gammabar*(b0tmp11freq*b11+b0tmp12freq*b12+b0tmp13freq*b13+
-				b0tmp21freq*b21+b0tmp22freq*b22+b0tmp23freq*b23+
-				b0tmp31freq*b31+b0tmp32freq*b32+b0tmp33freq*b33+chshift);
+			b0tmp21freq*b21+b0tmp22freq*b22+b0tmp23freq*b23+
+			b0tmp31freq*b31+b0tmp32freq*b32+b0tmp33freq*b33+chshift);
 			double f=rr1*x+rr2*y+rr3*z+trr+fb0;//frequency at the centre of the voxel
 			//finding table index for the center, 
 			double fval=(f-fc)/df;
 			double off=(fval-dslcp_first)/dslcp;
 			int nf=(int) off;
 			 if (nf>=0 && nf<=(Nslc-2)) { 
-				off-=nf;
-		//29.11.12: added option for either slcprof signal weighting or rfangle weighting
-	double prfweight = 1;
-	if(!rfavg){
-		double ts=table_slcprof[nf];
-				double sx=(table_slcprof[nf+1]-ts)*off + ts;
-				prfweight=sx;
-	}
-	else{
-				double dfvox = rr1*(xdim/2)+rr2*(ydim/2)+rr3*(zdim/2);//we are assumming that motion
-				//parameters are the same everywhere in the voxel
-		//table index for the start of the voxel
-				double fstart = (f-dfvox-fc)/df;
-				double offstart=(fstart-dslcp_first)/dslcp;
-				int nfstart=(int) offstart;
-				//table index for the end of the voxel
-				double fend = (f+dfvox-fc)/df;
-				double offend=(fend-dslcp_first)/dslcp;
-				int nfend=(int) offend;
-				offstart-=nfstart;
-		offend-=nfend;
-				int prfcount = 0;
-				for(int i=nfstart;i<=nfend;i++){
-			prfweight += table_slcprof[i];
-			prfcount++;
+					off-=nf;
+						//29.11.12: added option for either slcprof signal weighting or rfangle weighting
+					double prfweight = 1;
+					if(!rfavg){
+						double ts=table_slcprof[nf];
+								double sx=(table_slcprof[nf+1]-ts)*off + ts;
+								prfweight=sx;
+					}
+					else{
+						double dfvox = rr1*(xdim/2)+rr2*(ydim/2)+rr3*(zdim/2);//we are assumming that motion
+						//parameters are the same everywhere in the voxel
+						//table index for the start of the voxel
+						double fstart = (f-dfvox-fc)/df;
+						double offstart=(fstart-dslcp_first)/dslcp;
+						int nfstart=(int) offstart;
+						//table index for the end of the voxel
+						double fend = (f+dfvox-fc)/df;
+						double offend=(fend-dslcp_first)/dslcp;
+						int nfend=(int) offend;
+						offstart-=nfstart;
+						offend-=nfend;
+						int prfcount = 0;
+						
+						for(int i=nfstart;i<=nfend;i++){
+							prfweight += table_slcprof[i];
+							prfcount++;
+						}
+
+						prfweight = prfweight/prfcount;
+					}
+					//cout<<"prfweight = "<<prfweight<<endl;
+					double rfangle_f=prfweight*rfangle*RFtrans;//RFtrans are values 0 to 1 to derscribe 
+					if (fabs(rfangle_f)>1e-06){//new stuff mon dec 19
+								excitation=1;
+								m=free(m,tt,tissue,phase,actint);
+							//new stuff mon dec 19
+							//due to crushers or any gradient induced dephasing over the voxel a new 
+							//initial magnetisation is introduced which is the average of the 
+							//magnetisations over the voxel  
+								double xvalrf=fabs(glo_cx*(gg1+b0x*tt));
+								double yvalrf=fabs(glo_cy*(gg2+b0y*tt));
+								double zvalrf=fabs(glo_cz*(gg3+b0z*tt));
+							double xyzrf=Sinc(xvalrf)*Sinc(yvalrf)*Sinc(zvalrf);
+							m(1)=m(1)*xyzrf;
+								m(2)=m(2)*xyzrf;
+								m=rot(rfangle_f,"x")*m;
+								//new stuff
+								m00=sqrt(m(1)*m(1)+m(2)*m(2));
+								trf=tnew;
+								grf1=g1;
+								grf2=g2;
+								grf3=g3;
+								grf4=g4;
+								b0susrf=b0sus;
+								b0xsusrf=b0xsus;
+								b0ysusrf=b0ysus;
+								b0zsusrf=b0zsus;
+								actint=0.0;
+							//}
+					}//new stuff
+				}
 		}
-		prfweight = prfweight/prfcount;
-	}
-				//cout<<"prfweight = "<<prfweight<<endl;
-				double rfangle_f=prfweight*rfangle*RFtrans;//RFtrans are values 0 to 1 to derscribe 
-				if (fabs(rfangle_f)>1e-06){//new stuff mon dec 19
-					excitation=1;
-					m=free(m,tt,tissue,phase,actint);
-		//new stuff mon dec 19
-		//due to crushers or any gradient induced dephasing over the voxel a new 
-		//initial magnetisation is introduced which is the average of the 
-		//magnetisations over the voxel  
-					double xvalrf=fabs(glo_cx*(gg1+b0x*tt));
-					double yvalrf=fabs(glo_cy*(gg2+b0y*tt));
-					double zvalrf=fabs(glo_cz*(gg3+b0z*tt));
-		double xyzrf=Sinc(xvalrf)*Sinc(yvalrf)*Sinc(zvalrf);
-		m(1)=m(1)*xyzrf;
-					m(2)=m(2)*xyzrf;
-					m=rot(rfangle_f,"x")*m;
-					//new stuff
-					m00=sqrt(m(1)*m(1)+m(2)*m(2));
-					trf=tnew;
-					grf1=g1;
-					grf2=g2;
-					grf3=g3;
-		grf4=g4;
-					b0susrf=b0sus;
-		b0xsusrf=b0xsus;
-		b0ysusrf=b0ysus;
-		b0zsusrf=b0zsus;
-		actint=0.0;
-		//}
-	}//new stuff
-			}
-		}
+
+					// cout<<"coord1 = "<<gammabar*(gg1+b0x)<<endl;
+					// cout<<"gg1 = "<<gg1<<endl;
+					// cout<<"b0x = "<<b0x<<endl;
 		if (read!=0){
 			readstep=readstep+1;
+				if (v==1){
+					cout<<"Literally saving coord(1,"<<readstep<<") as "<<gammabar*(gg1+b0x)<<endl;
+					coord(1,readstep)=gammabar*(gg1+b0x);//to record the distorted coordinatres in the k-space
+					coord(2,readstep)=gammabar*(gg2+b0y);
+					coord(3,readstep)=gammabar*(gg3+b0z);
+				}
 			if (excitation==1 || nospeedup==1){
 				double xval=fabs(glo_cx*(gg1+b0x));
 				double yval=fabs(glo_cy*(gg2+b0y));
 				double zval=fabs(glo_cz*(gg3+b0z));
+			
 
-				if (v==1){
-					coord(1,readstep)=gammabar*(gg1+b0x);//to record the distorted coordinatres 
-		//in the k-space
-					coord(2,readstep)=gammabar*(gg2+b0y);
-					coord(3,readstep)=gammabar*(gg3+b0z);
-				}
-	double tmp;
-#ifdef NOTABLE
-				tmp=m00*exp(-tt*iT2+actint)*Sinc(xval)*Sinc(yval)*Sinc(zval);
-				sreal[readstep-1]+=den*tmp*cos(phase);
-				simag[readstep-1]+=den*tmp*sin(phase);
-#else
-				if (xval<glo_Dsinc && yval<glo_Dsinc && zval<glo_Dsinc){
-				//TABLES for SINC
-	//x
-				double off=xval*glo_idsinc;
-	int nbin=(int) off;
-	off-=nbin;
-	assert ((nbin)<glo_Nsinc);
-	double ts=table_sinc[nbin];
-	double sx=(table_sinc[nbin+1]-ts)*off + ts;
-	//y
-				off=yval*glo_idsinc;
-	nbin=(int) off;
-	off-=nbin;
-	ts=table_sinc[nbin];
-	double sy=(table_sinc[nbin+1]-ts)*off + ts;
-	//z        
-				off=zval*glo_idsinc;
-	nbin=(int) off;
-	off-=nbin;
-	ts=table_sinc[nbin];
-	double sz=(table_sinc[nbin+1]-ts)*off + ts;
-	//
-				tmp=m00*exp(-tt*iT2+actint)*sx*sy*sz;
 
-			}
-			else {
-				tmp=m00*exp(-tt*iT2+actint)*Sinc(xval)*Sinc(yval)*Sinc(zval);
-			}
-			//TABLES SIN AND COS CALCULATION
-			double phase_2pi;
-			if (phase>0) phase_2pi=phase- ((int) (phase*glo_itwopi))*glo_twopi;//one solution 
-			//when phase exceedes Dsin , this is faster
-			else phase_2pi=phase- ((int) (phase*glo_itwopi))*glo_twopi+glo_twopi;
-			double off=phase_2pi*glo_idsin;
-			int nphase=(int) off;
-			off-=nphase;
-			if (opt_test==1 && readstep%4096==2081 && v==1) {
-				cout<<"nphase= "<<nphase<<"; Phase= "<<phase<<endl;
-				cout<<"((int) (phase*glo_itwopi))*glo_twopi"<<endl;
-				cout<<((int) (phase*glo_itwopi))*glo_twopi<<" glo_twopi="<<glo_twopi<<endl;
-				cout<<"; glo_itwopi="<<glo_itwopi<<"table_sin[nphase]"<<table_sin[nphase]<<endl;
-			}
-			assert ((nphase+1)<glo_Nsin+1);
-			double ts1=table_sin[nphase], tc1=table_cos[nphase];
-			double wanted_cos=(table_cos[nphase+1]-tc1)*off+tc1;
-			double wanted_sin=(table_sin[nphase+1]-ts1)*off+ts1;
-			//CALCULATING SIGNAL
-			assert( (readstep-1) < nreadp );
-			sreal[readstep-1]+=den*tmp*wanted_cos;
-			simag[readstep-1]+=den*tmp*wanted_sin;
-			if(opt_test==1 && readstep%4096==2081 && v==1){
-					cout.precision(20);
-					cout<<"readstep= "<<readstep<<endl;
-					cout<<"gama= "<<gama<<endl;
-					cout<<"gg1= "<<gg1<<"; gg2= "<<gg2<<"; gg3= "<<gg3<<"; gg4="<<gg4<<endl;
-					cout<<"x ="<<x<<"; y= "<<y<<"; z= "<<z<<endl;
-					cout<<"b0sus="<<b0sus<<"; b0susrf="<<b0susrf<<"; b0tmp11="<<b0tmp11<<endl;
-		cout<<"b11"<<b11<<endl;
-					cout<<"b0= "<<b00<<"; chshift= "<<chshift<<endl;
-					cout<<"tnew= "<<tnew<<"; trf= "<<trf<<endl;
-					cout<<"tt=tnew-trf= "<<tt<<endl;
-					cout<<"phase=gama*(gg1*x+gg2*y+gg3*z+gg4+(b0+chshift)*tt)= "<<phase<<endl; 
-		cout<<"phase_2pi= "<<phase_2pi<<endl;
-		cout<<"table_cos(phase)= "<<wanted_cos<<endl;
-		cout<<"cos-table(phase)= "<<cos(phase)-wanted_cos<<endl;
-					cout<<"table_sin(phase)= "<<wanted_sin<<endl;
-		cout<<"; sin-table(phase)= "<<sin(phase)-wanted_sin<<endl;
-		cout<<"glo_cx= "<<glo_cx<<"; glo_cy= "<<glo_cy<<endl;
-		cout<<"; glo_cz= "<<glo_cz<<endl;
-		cout<<"b0x= "<<b0x<<"; b0y= "<<b0y<<"; b0z= "<<b0z<<endl;
-					cout<<"Ival=fabs(glo_cI*(ggI+b0I*tt)); I=x,y,z"<<endl;
-					cout<<"xval= "<<xval<<"; yval= "<<yval<<"; zval= "<<zval<<endl;
-					cout<<"m00= "<<m00<<endl;
-					cout<<"actint= "<<actint<<"; iT2= "<<iT2<<endl;
-		cout<<" so exp(-tt*iT2+actint)= "<<exp(-tt*iT2+actint)<<endl;
-		cout<<"m00*exp(-tt*iT2+actint)="<<m00*exp(-tt*iT2+actint)<<endl;
-					cout<<"Sinc(xval)*Sinc(yval)*Sinc(zval)= "<<Sinc(xval)*Sinc(yval)*Sinc(zval)<<endl;
-					cout<<"tmp= m00*exp(-tt*iT2+actint)*Sinc(xval)*Sinc(yval)*Sinc(zval)= "<<tmp<<endl;
-		cout<<"den= "<<den<<endl;
-		cout<<"rfstep= "<<rfstep<<endl;
-					cout<<"sreal1vox("<<readstep<<")= den*tmp*wanted_cos="<<den*tmp*wanted_cos<<endl;
-		cout<<"alltillnow= "<<sreal[readstep-1]<<endl;
-					cout<<"simag1vox("<<readstep<<")= den*tmp*wanted_sin"<<den*tmp*wanted_sin<<endl;
-		cout<<"alltillnow= "<<simag[readstep-1]<<endl;
-		cout<<"------------------------------------------------------------"<<endl;
-			}
-#endif
+				double tmp;
+				
+				#ifdef NOTABLE
+					tmp=m00*exp(-tt*iT2+actint)*Sinc(xval)*Sinc(yval)*Sinc(zval);
+					sreal[readstep-1]+=den*tmp*cos(phase);
+					simag[readstep-1]+=den*tmp*sin(phase);
+				#else
+					if (xval<glo_Dsinc && yval<glo_Dsinc && zval<glo_Dsinc){
+						//TABLES for SINC
+						//x
+						double off=xval*glo_idsinc;
+						int nbin=(int) off;
+						off-=nbin;
+						assert ((nbin)<glo_Nsinc);
+						double ts=table_sinc[nbin];
+						double sx=(table_sinc[nbin+1]-ts)*off + ts;
+						//y
+						off=yval*glo_idsinc;
+						nbin=(int) off;
+						off-=nbin;
+						ts=table_sinc[nbin];
+						double sy=(table_sinc[nbin+1]-ts)*off + ts;
+						//z        
+						off=zval*glo_idsinc;
+						nbin=(int) off;
+						off-=nbin;
+						ts=table_sinc[nbin];
+						double sz=(table_sinc[nbin+1]-ts)*off + ts;
+						//
+						tmp=m00*exp(-tt*iT2+actint)*sx*sy*sz;
+
+					}
+					else {
+						tmp=m00*exp(-tt*iT2+actint)*Sinc(xval)*Sinc(yval)*Sinc(zval);
+					}
+					//TABLES SIN AND COS CALCULATION
+					double phase_2pi;
+					if (phase>0) phase_2pi=phase- ((int) (phase*glo_itwopi))*glo_twopi;//one solution 
+					//when phase exceedes Dsin , this is faster
+					else phase_2pi=phase- ((int) (phase*glo_itwopi))*glo_twopi+glo_twopi;
+					double off=phase_2pi*glo_idsin;
+					int nphase=(int) off;
+					off-=nphase;
+					if (opt_test==1 && readstep%4096==2081 && v==1) {
+						cout<<"nphase= "<<nphase<<"; Phase= "<<phase<<endl;
+						cout<<"((int) (phase*glo_itwopi))*glo_twopi"<<endl;
+						cout<<((int) (phase*glo_itwopi))*glo_twopi<<" glo_twopi="<<glo_twopi<<endl;
+						cout<<"; glo_itwopi="<<glo_itwopi<<"table_sin[nphase]"<<table_sin[nphase]<<endl;
+					}
+					assert ((nphase+1)<glo_Nsin+1);
+					double ts1=table_sin[nphase], tc1=table_cos[nphase];
+					double wanted_cos=(table_cos[nphase+1]-tc1)*off+tc1;
+					double wanted_sin=(table_sin[nphase+1]-ts1)*off+ts1;
+					//CALCULATING SIGNAL
+					assert( (readstep-1) < nreadp );
+					sreal[readstep-1]+=den*tmp*wanted_cos;
+					simag[readstep-1]+=den*tmp*wanted_sin;
+					
+					if(opt_test==1 && readstep%4096==2081 && v==1){
+						cout.precision(20);
+						cout<<"readstep= "<<readstep<<endl;
+						cout<<"gama= "<<gama<<endl;
+						cout<<"gg1= "<<gg1<<"; gg2= "<<gg2<<"; gg3= "<<gg3<<"; gg4="<<gg4<<endl;
+						cout<<"x ="<<x<<"; y= "<<y<<"; z= "<<z<<endl;
+						cout<<"b0sus="<<b0sus<<"; b0susrf="<<b0susrf<<"; b0tmp11="<<b0tmp11<<endl;
+						cout<<"b11"<<b11<<endl;
+						cout<<"b0= "<<b00<<"; chshift= "<<chshift<<endl;
+						cout<<"tnew= "<<tnew<<"; trf= "<<trf<<endl;
+						cout<<"tt=tnew-trf= "<<tt<<endl;
+						cout<<"phase=gama*(gg1*x+gg2*y+gg3*z+gg4+(b0+chshift)*tt)= "<<phase<<endl; 
+						cout<<"phase_2pi= "<<phase_2pi<<endl;
+						cout<<"table_cos(phase)= "<<wanted_cos<<endl;
+						cout<<"cos-table(phase)= "<<cos(phase)-wanted_cos<<endl;
+						cout<<"table_sin(phase)= "<<wanted_sin<<endl;
+						cout<<"; sin-table(phase)= "<<sin(phase)-wanted_sin<<endl;
+						cout<<"glo_cx= "<<glo_cx<<"; glo_cy= "<<glo_cy<<endl;
+						cout<<"; glo_cz= "<<glo_cz<<endl;
+						cout<<"b0x= "<<b0x<<"; b0y= "<<b0y<<"; b0z= "<<b0z<<endl;
+						cout<<"Ival=fabs(glo_cI*(ggI+b0I*tt)); I=x,y,z"<<endl;
+						cout<<"xval= "<<xval<<"; yval= "<<yval<<"; zval= "<<zval<<endl;
+						cout<<"m00= "<<m00<<endl;
+						cout<<"actint= "<<actint<<"; iT2= "<<iT2<<endl;
+						cout<<" so exp(-tt*iT2+actint)= "<<exp(-tt*iT2+actint)<<endl;
+						cout<<"m00*exp(-tt*iT2+actint)="<<m00*exp(-tt*iT2+actint)<<endl;
+						cout<<"Sinc(xval)*Sinc(yval)*Sinc(zval)= "<<Sinc(xval)*Sinc(yval)*Sinc(zval)<<endl;
+						cout<<"tmp= m00*exp(-tt*iT2+actint)*Sinc(xval)*Sinc(yval)*Sinc(zval)= "<<tmp<<endl;
+						cout<<"den= "<<den<<endl;
+						cout<<"rfstep= "<<rfstep<<endl;
+						cout<<"sreal1vox("<<readstep<<")= den*tmp*wanted_cos="<<den*tmp*wanted_cos<<endl;
+						cout<<"alltillnow= "<<sreal[readstep-1]<<endl;
+						cout<<"simag1vox("<<readstep<<")= den*tmp*wanted_sin"<<den*tmp*wanted_sin<<endl;
+						cout<<"alltillnow= "<<simag[readstep-1]<<endl;
+						cout<<"------------------------------------------------------------"<<endl;
+					}
+				#endif
 			}//end of if slcnum
 		}//end of if read
 	}//end of main loop
+
+
+
  //////////////////////////////////////////////////////////////////////////
 	//SAVING THE STATE
 	///////////////////////////////////////////////////////////////////////// 
@@ -2763,13 +2779,11 @@ void voxel3(const double x,const double y,const double z,
 	}
  if (v==1){
 		write_binary_matrix(coord,outputname+"_kcoord_mot" );
- }
+ 
 
 		cout<<"############# Attempting to write Motion Contaminated Kcoord ######################"<<endl;
 		cout<<outputname+"_Kcoord_Mot_ascii"<<endl; 
-		if (v==1)
-		{
-			
+
 
 			write_ascii_matrix(coord,outputname+"_Kcoord_Mot_ascii" );
 			cout<<"Saving RowVectors"<<endl;
@@ -2778,9 +2792,8 @@ void voxel3(const double x,const double y,const double z,
 			write_ascii_matrix(g3motionRV,outputname+"_Grad3_Mot_ascii" );
 			write_ascii_matrix(g4motionRV,outputname+"_Grad4_Mot_ascii" );
 			cout<<"Done"<<endl;
-		
-		}
 	
+	}
 }
 
 ////////////////////////////////

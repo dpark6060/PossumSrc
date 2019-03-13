@@ -496,8 +496,8 @@ int do_work(int argc, char* argv[])
     Matrix kcoord;
     kcoord=read_binary_matrix(opt_kcoord.value());
 	
-	cout<<'K coord x: '<<kcoord.Nrows()<<endl;
-	cout<<'K coord y: '<<kcoord.Ncols()<<endl;
+	cout<<"K coord x: "<<kcoord.Nrows()<<endl;
+	cout<<"K coord y: "<<kcoord.Ncols()<<endl;
 	
 	
     if (seqnum==1) ReshapeEpiSignal(kcoord,slcdir,nslc,phasedir,nphase,readdir,nread,startkspace,kcoord_kx,kcoord_ky);
