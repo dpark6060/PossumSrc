@@ -185,9 +185,9 @@ Option<string> opt_mainmatrix(string("-e,--mainmatx"), string(""),
 		  true, requires_argument);
 
 //OUTPUT kcoord if needed
-Option<bool> opt_kcoord(string("-k,--kcoord"), false,
+Option<bool> opt_kcoord(string("-k,--kcoord"), true,
 		  string("If this option is ON it will save the kspace coordinates"),
-		  false, no_argument);
+		  true, no_argument);
 
 
 int nonoptarg;
