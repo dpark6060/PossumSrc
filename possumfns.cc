@@ -1648,13 +1648,12 @@ cout<<"Voxel1"<<endl;
 	}	//end of main loop
 		string kcname=outputname+"_kcoord";
 
-	 if (v==1){
-			write_binary_matrix(coord,outputname+"_kcoord_mot" );
-	 }
-	if (v==1)
-	{
-
-
+		if (v==1 && save_kcoord==1)
+		{
+			
+		cout<<"############# Attempting to write Motion Contaminated Kcoord ######################"<<endl;
+		cout<<outputname+"_Kcoord_Mot_ascii"<<endl;
+				write_binary_matrix(coord,outputname+"_kcoord_mot" );
 			write_ascii_matrix(coord,outputname+"_Kcoord_Mot_ascii" );
 			cout<<"Saving RowVectors"<<endl;
 			write_ascii_matrix(g1motionRV,outputname+"_Grad1_Mot_ascii" );
@@ -1662,8 +1661,8 @@ cout<<"Voxel1"<<endl;
 			write_ascii_matrix(g3motionRV,outputname+"_Grad3_Mot_ascii" );
 			write_ascii_matrix(g4motionRV,outputname+"_Grad4_Mot_ascii" );
 			cout<<"Done"<<endl;
-		
-	}
+	
+		}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -2090,18 +2089,14 @@ void voxel2(const double x,const double y,const double z,
 				}         
 			}//end of if read    
 		}//end of main loop
-	 if (save_kcoord==1){
-			write_binary_matrix(coord,outputname+"_kcoord_mot" );
-			}
+
 		
-		cout<<"############# Attempting to write Motion Contaminated Kcoord ######################"<<endl;
-		cout<<outputname+"_Kcoord_Mot_ascii"<<endl;
-		
-		
-		if (v==1)
+		if (v==1 && save_kcoord==1)
 		{
 			
-
+		cout<<"############# Attempting to write Motion Contaminated Kcoord ######################"<<endl;
+		cout<<outputname+"_Kcoord_Mot_ascii"<<endl;
+				write_binary_matrix(coord,outputname+"_kcoord_mot" );
 			write_ascii_matrix(coord,outputname+"_Kcoord_Mot_ascii" );
 			cout<<"Saving RowVectors"<<endl;
 			write_ascii_matrix(g1motionRV,outputname+"_Grad1_Mot_ascii" );
@@ -2220,7 +2215,7 @@ void voxel3(const double x,const double y,const double z,
 	double trnew3=0.0;
 	//slice-profile weight def for the sections
 	if (v==1) {
-			cout<<"InVoxel3"<<endl;
+			cout<<"This is the new Voxel3"<<endl;
 		 g<<pstatev[1]<<pstatev[2]<<pstatev[3]
 		 <<pstatev[4]<<pstatev[5]<<pstatev[6]
 		 <<pstatev[7]<<pstatev[8]<<pstatev[9]
@@ -2628,12 +2623,7 @@ void voxel3(const double x,const double y,const double z,
 					// cout<<"b0x = "<<b0x<<endl;
 		if (read!=0){
 			readstep=readstep+1;
-				if (v==1){
-					cout<<"Literally saving coord(1,"<<readstep<<") as "<<gammabar*(gg1+b0x)<<endl;
-					coord(1,readstep)=gammabar*(gg1+b0x);//to record the distorted coordinatres in the k-space
-					coord(2,readstep)=gammabar*(gg2+b0y);
-					coord(3,readstep)=gammabar*(gg3+b0z);
-				}
+
 			if (excitation==1 || nospeedup==1){
 				double xval=fabs(glo_cx*(gg1+b0x));
 				double yval=fabs(glo_cy*(gg2+b0y));
@@ -2647,6 +2637,14 @@ void voxel3(const double x,const double y,const double z,
 					tmp=m00*exp(-tt*iT2+actint)*Sinc(xval)*Sinc(yval)*Sinc(zval);
 					sreal[readstep-1]+=den*tmp*cos(phase);
 					simag[readstep-1]+=den*tmp*sin(phase);
+					
+					if (v==1){
+						cout<<"Literally saving coord(1,"<<readstep<<") as "<<gammabar*(gg1+b0x)<<endl;
+						coord(1,readstep)=gammabar*(gg1+b0x);//to record the distorted coordinatres in the k-space
+						coord(2,readstep)=gammabar*(gg2+b0y);
+						coord(3,readstep)=gammabar*(gg3+b0z);
+					}
+
 				#else
 					if (xval<glo_Dsinc && yval<glo_Dsinc && zval<glo_Dsinc){
 						//TABLES for SINC
@@ -2698,6 +2696,12 @@ void voxel3(const double x,const double y,const double z,
 					assert( (readstep-1) < nreadp );
 					sreal[readstep-1]+=den*tmp*wanted_cos;
 					simag[readstep-1]+=den*tmp*wanted_sin;
+					if (v==1){
+						cout<<"Literally saving coord(1,"<<readstep<<") as "<<gammabar*(gg1+b0x)<<endl;
+						coord(1,readstep)=gammabar*(gg1+b0x);//to record the distorted coordinatres in the k-space
+						coord(2,readstep)=gammabar*(gg2+b0y);
+						coord(3,readstep)=gammabar*(gg3+b0z);
+					}
 					
 					if(opt_test==1 && readstep%4096==2081 && v==1){
 						cout.precision(20);
