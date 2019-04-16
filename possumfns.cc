@@ -2623,6 +2623,12 @@ void voxel3(const double x,const double y,const double z,
 					// cout<<"b0x = "<<b0x<<endl;
 		if (read!=0){
 			readstep=readstep+1;
+				if(v==1){
+					cout<<"Literally saving coord(1,"<<readstep<<") as "<<gammabar*(gg1+b0x)<<endl;
+					coord(1,readstep)=gammabar*(gg1+b0x);//to record the distorted coordinatres in the k-space
+					coord(2,readstep)=gammabar*(gg2+b0y);
+					coord(3,readstep)=gammabar*(gg3+b0z);
+					}
 
 			if (excitation==1 || nospeedup==1){
 				double xval=fabs(glo_cx*(gg1+b0x));
@@ -2637,13 +2643,13 @@ void voxel3(const double x,const double y,const double z,
 					tmp=m00*exp(-tt*iT2+actint)*Sinc(xval)*Sinc(yval)*Sinc(zval);
 					sreal[readstep-1]+=den*tmp*cos(phase);
 					simag[readstep-1]+=den*tmp*sin(phase);
+
 					
-					if (v==1){
-						cout<<"Literally saving coord(1,"<<readstep<<") as "<<gammabar*(gg1+b0x)<<endl;
+						cout<<"In NOTABLE Literally saving coord(1,"<<readstep<<") as "<<gammabar*(gg1+b0x)<<endl;
 						coord(1,readstep)=gammabar*(gg1+b0x);//to record the distorted coordinatres in the k-space
 						coord(2,readstep)=gammabar*(gg2+b0y);
 						coord(3,readstep)=gammabar*(gg3+b0z);
-					}
+					
 
 				#else
 					if (xval<glo_Dsinc && yval<glo_Dsinc && zval<glo_Dsinc){
@@ -2696,12 +2702,7 @@ void voxel3(const double x,const double y,const double z,
 					assert( (readstep-1) < nreadp );
 					sreal[readstep-1]+=den*tmp*wanted_cos;
 					simag[readstep-1]+=den*tmp*wanted_sin;
-					if (v==1){
-						cout<<"Literally saving coord(1,"<<readstep<<") as "<<gammabar*(gg1+b0x)<<endl;
-						coord(1,readstep)=gammabar*(gg1+b0x);//to record the distorted coordinatres in the k-space
-						coord(2,readstep)=gammabar*(gg2+b0y);
-						coord(3,readstep)=gammabar*(gg3+b0z);
-					}
+
 					
 					if(opt_test==1 && readstep%4096==2081 && v==1){
 						cout.precision(20);
@@ -2740,7 +2741,7 @@ void voxel3(const double x,const double y,const double z,
 						cout<<"------------------------------------------------------------"<<endl;
 					}
 				#endif
-			}//end of if slcnum
+			}//end of if slcnum (if excitation)
 		}//end of if read
 	}//end of main loop
 
